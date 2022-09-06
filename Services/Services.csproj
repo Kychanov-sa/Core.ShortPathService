@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>GlacialBytes.Core.ShortPathService.Services</AssemblyName>
+    <RootNamespace>GlacialBytes.Core.ShortPathService.Services</RootNamespace>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\glacialbytes.core.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+</Project>

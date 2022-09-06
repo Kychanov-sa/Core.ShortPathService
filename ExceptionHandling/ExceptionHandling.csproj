@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>GlacialBytes.Core.ShortPathService.Diagnostics.ExceptionHandling</AssemblyName>
+    <RootNamespace>GlacialBytes.Core.ShortPathService.Diagnostics</RootNamespace>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\glacialbytes.core.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+</Project>

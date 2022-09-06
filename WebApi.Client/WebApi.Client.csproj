@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>GlacialBytes.Core.ShortPathService.WebApi.Client</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\glacialbytes.core.snk</AssemblyOriginatorKeyFile>
+    <RootNamespace>ShortPathService.WebApi.WebApi.Client</RootNamespace>
+  </PropertyGroup>
+
+  <Import Project="..\WebApi\WebApi.projitems" Label="Shared" />
+
+</Project>
