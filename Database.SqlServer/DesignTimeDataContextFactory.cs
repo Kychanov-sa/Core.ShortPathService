@@ -6,7 +6,7 @@ namespace GlacialBytes.ShortPathService.Persistence.Database.SqlServer
   /// <summary>
   /// Класс фабрики контекстов данных времени разработки.
   /// </summary>
-  public class DesignTimeDataContextFactory : IDesignTimeDbContextFactory<SqlServerDataContext>
+  internal class DesignTimeDataContextFactory : IDesignTimeDbContextFactory<SqlServerDataContext>
   {
     #region IDesignTimeDbContextFactory
 

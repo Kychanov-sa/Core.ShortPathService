@@ -11,7 +11,7 @@ namespace GlacialBytes.ShortPathService.Persistence.Database
   /// <summary>
   /// Провайдер данных.
   /// </summary>
-  public class DataProvider : IDataProvider
+  internal class DataProvider : IDataProvider
   {
     /// <summary>
     /// Контекст данных.

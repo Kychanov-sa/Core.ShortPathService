@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace GlacialBytes.ShortPathService.Persistence.Database.PostgreSql
 {
   /// <summary>
   /// Класс фабрики контекстов данных времени разработки.
   /// </summary>
-  public class DesignTimeDataContextFactory : IDesignTimeDbContextFactory<PostgreSqlDataContext>
+  internal class DesignTimeDataContextFactory : IDesignTimeDbContextFactory<PostgreSqlDataContext>
   {
     #region IDesignTimeDbContextFactory
 

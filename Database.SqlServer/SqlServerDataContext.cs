@@ -6,7 +6,7 @@ namespace GlacialBytes.ShortPathService.Persistence.Database.SqlServer
   /// <summary>
   /// Контекст данных.
   /// </summary>
-  public class SqlServerDataContext : DataContext
+  internal class SqlServerDataContext : DataContext
   {
     /// <summary>
     /// Конструктор.
@@ -61,7 +61,7 @@ namespace GlacialBytes.ShortPathService.Persistence.Database.SqlServer
         Direction = System.Data.ParameterDirection.Output,
         Size = 50,
       };
-      _ = Database.ExecuteSqlRaw("[dbo].[ESSGetDataSchemeVersion] @ReturnValue OUT", parameterReturn);
+      _ = Database.ExecuteSqlRaw("[dbo].[GetDataSchemeVersion] @ReturnValue OUT", parameterReturn);
       return parameterReturn.Value.ToString();
     }
 

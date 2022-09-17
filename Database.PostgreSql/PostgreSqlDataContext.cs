@@ -6,7 +6,7 @@ namespace GlacialBytes.ShortPathService.Persistence.Database.PostgreSql
   /// <summary>
   /// Контекст данных для PostgreSQL.
   /// </summary>
-  public class PostgreSqlDataContext : DataContext
+  internal class PostgreSqlDataContext : DataContext
   {
     /// <summary>
     /// Конструктор.
@@ -60,7 +60,7 @@ namespace GlacialBytes.ShortPathService.Persistence.Database.PostgreSql
         Direction = System.Data.ParameterDirection.Output,
         Size = 50,
       };
-      _ = Database.ExecuteSqlRaw("CALL essgetdataschemeversion(null);", parameterReturn);
+      _ = Database.ExecuteSqlRaw("CALL getdataschemeversion(null);", parameterReturn);
       return parameterReturn.Value.ToString();
     }
 

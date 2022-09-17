@@ -5,8 +5,7 @@
     <AssemblyOriginatorKeyFile>..\..\glacialbytes.core.snk</AssemblyOriginatorKeyFile>
     <AssemblyName>GlacialBytes.ShortPathService.Persistence.Database.SqlServer</AssemblyName>
     <RootNamespace>GlacialBytes.ShortPathService.Persistence.Database.SqlServer</RootNamespace>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\glacialbytes.core.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>    
     <CodeAnalysisRuleSet>..\StyleCop.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 

@@ -103,9 +103,9 @@ namespace GlacialBytes.ShortPathService.Persistence.Database
       base.OnModelCreating(modelBuilder);
 
       // Записи путей
-      modelBuilder.Entity<DataModels.PathRecord>().ToTable("PathRecords");
-      modelBuilder.Entity<DataModels.PathRecord>().HasKey(r => r.Id);
-      modelBuilder.Entity<DataModels.PathRecord>().Property(r => r.FullUrl).IsRequired();
+      modelBuilder.Entity<DataModels.Route>().ToTable("Routes");
+      modelBuilder.Entity<DataModels.Route>().HasKey(r => r.Id);
+      modelBuilder.Entity<DataModels.Route>().Property(r => r.FullUrl).IsRequired();
     }
     #endregion
 
