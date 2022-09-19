@@ -25,7 +25,7 @@ namespace Services.Test
     [TestMethod]
     public void GetRedirectUrl()
     {
-      var redirectionUrl = _textContext.RedirectionService.GetRedirectUrl(TestRouteId.ToString());
+      var redirectionUrl = _textContext.RedirectionService.GetRedirectUrl(ValidRouteId);
       Assert.IsNotNull(redirectionUrl);
       Assert.AreEqual(TestRouteUrl, redirectionUrl.ToString());
     }
@@ -34,21 +34,21 @@ namespace Services.Test
     [ExpectedException(typeof(ArgumentException))]
     public void GetRedirectUrl_WhenRouteIdIsInvalid()
     {
-      _ = _textContext.RedirectionService.GetRedirectUrl("invalid id");
+      _ = _textContext.RedirectionService.GetRedirectUrl(InvalidRouteId);
     }
 
     [TestMethod]
     [ExpectedException(typeof(RouteNotFoundException))]
     public void GetRedirectUrl_WhenRouteIsNotExist()
     {
-      _ = _textContext.RedirectionService.GetRedirectUrl(Guid.NewGuid().ToString());
+      _ = _textContext.RedirectionService.GetRedirectUrl(NotExistsRouteId);
     }
 
     [TestMethod]
     [ExpectedException(typeof(RouteExpiredException))]
     public void GetRedirectUrl_WhenRouteIsExpired()
     {
-      _ = _textContext.RedirectionService.GetRedirectUrl(ExpiredRouteId.ToString());
+      _ = _textContext.RedirectionService.GetRedirectUrl(ExpiredRouteId);
     }
   }
 }

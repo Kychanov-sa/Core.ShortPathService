@@ -1,4 +1,5 @@
 ﻿using System;
+using CSharpVitamins;
 using GlacialBytes.Foundation.Diagnostics;
 using GlacialBytes.ShortPathService.Domain.Data;
 using GlacialBytes.ShortPathService.Domain.Data.Commands;
@@ -40,7 +41,7 @@ namespace GlacialBytes.Core.ShortPathService.Services
         BestBefore = bestBefore,
       });
 
-      return routeId.ToString();
+      return new ShortGuid(routeId).ToString();
     }
 
     #endregion

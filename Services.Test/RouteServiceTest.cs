@@ -1,6 +1,8 @@
+using CSharpVitamins;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Services.Test.TestContexts;
 using System;
+using System.Text;
 
 namespace Services.Test
 {
@@ -29,13 +31,12 @@ namespace Services.Test
       {
         routeId = _textContext.RouteService.AddRoute(new Uri("https://www.youtube.com/watch?v=65AdFi86DMM"), null);
         Assert.IsNotNull(routeId);
-        Assert.IsTrue(Guid.TryParse(routeId, out Guid _));
       }
       finally
       {
-        if (!String.IsNullOrEmpty(routeId) && Guid.TryParse(routeId, out Guid nativeId))
+        if (!String.IsNullOrEmpty(routeId) && ShortGuid.TryParse(routeId, out ShortGuid routeShortId))
         {
-          _textContext.Repository.Delete(nativeId);
+          _textContext.Repository.Delete(routeShortId.Guid);
         }
       }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using CSharpVitamins;
 using GlacialBytes.Core.ShortPathService.Services.Exceptions;
 using GlacialBytes.ShortPathService.Domain.Data;
 using GlacialBytes.ShortPathService.Domain.Data.DataModels;
@@ -31,11 +32,11 @@ namespace GlacialBytes.Core.ShortPathService.Services
     /// </summary>
     public Uri GetRedirectUrl(string routeId)
     {
-      if (!Guid.TryParse(routeId, out Guid internalRouteId))
+      if (!ShortGuid.TryParse(routeId, out ShortGuid routeShortId))
         throw new ArgumentException($"Provided routeId value: '{routeId}' is not a valid identifier.");
 
       var repository = _dataProvider.GetRepository<Route>();
-      var route = repository.Get(internalRouteId);
+      var route = repository.Get(routeShortId.Guid);
       if (route == null)
         throw new RouteNotFoundException(routeId);
 
