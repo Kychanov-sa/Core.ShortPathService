@@ -17,5 +17,10 @@ namespace Database.SqlServer.Test
     {
       get { return Guid.Parse("{ee8d4c33-23e2-4e7c-a152-abb0de3ad59e}"); }
     }
+
+    public string TestRouteUrl
+    {
+      get { return "https://www.youtube.com/c/Nellifornication"; }
+    }
   }
 }

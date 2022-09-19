@@ -3,10 +3,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Services.Test
 {
   [TestClass]
-  public class UnitTest1
+  public class RouteCleaningWorkerTest : BaseServicesTest
   {
     [TestMethod]
-    public void TestMethod1()
+    public void DoWork()
     {
     }
   }

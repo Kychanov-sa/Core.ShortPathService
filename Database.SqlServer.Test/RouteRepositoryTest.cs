@@ -1,7 +1,5 @@
-﻿using GlacialBytes.Foundation.Data;
+﻿using Database.SqlServer.Test.TestContexts;
 using GlacialBytes.ShortPathService.Domain.Data.DataModels;
-using GlacialBytes.ShortPathService.Persistence.Database;
-using GlacialBytes.ShortPathService.Persistence.Database.SqlServer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
@@ -11,32 +9,27 @@ namespace Database.SqlServer.Test
   [TestClass]
   public class RouteRepositoryTest : BaseDataTest
   {
-    private DataContext _dataContext;
-    private DataProvider _dataProvider;
-    private IRepository<Guid, Route> _repository;
+    private readonly GivenRouteRepositoryAcquired _testContext = new ();
 
     [TestInitialize]
     public void InitializeTest()
     {
-      _dataContext = new SqlServerDataContext(DatabaseConnectionString, true);
-      _dataProvider = new DataProvider(_dataContext);
-      _repository = _dataProvider.GetRepository<Route>();
+      _testContext.Initialize(DatabaseConnectionString);
     }
 
     [TestCleanup]
     public void CleanupTest()
     {
-      _dataProvider.Dispose();
-      _dataContext.Dispose();
+      _testContext.Cleanup();
     }
 
     [TestMethod]
     public void Any()
     {
-      bool result = _repository.Any(r => r.BestBefore != null);
+      bool result = _testContext.Repository.Any(r => r.BestBefore != null);
       Assert.IsTrue(result);
 
-      result = _repository.Any(r => r.FullUrl == "invalid uri");
+      result = _testContext.Repository.Any(r => r.FullUrl == "invalid uri");
       Assert.IsFalse(result);
     }  
 
@@ -51,8 +44,8 @@ namespace Database.SqlServer.Test
           BestBefore = DateTime.UtcNow.AddDays(1),
           FullUrl = "https://www.youtube.com/channel/UCxTclqPDlFzC6yMVtWYm_DA",
         };
-        _repository.Create(route);        
-        int changedRows = _dataProvider.SaveChanges();
+        _testContext.Repository.Create(route);        
+        int changedRows = _testContext.DataProvider.SaveChanges();
         Assert.AreEqual(1, changedRows);
         
         routeId = route.Id;
@@ -61,8 +54,8 @@ namespace Database.SqlServer.Test
       {
         if (routeId.HasValue)
         {
-          _repository.Delete(routeId.Value);
-          int changedRows = _dataProvider.SaveChanges();
+          _testContext.Repository.Delete(routeId.Value);
+          int changedRows = _testContext.DataProvider.SaveChanges();
           Assert.AreEqual(1, changedRows);
         }
       }
@@ -87,12 +80,12 @@ namespace Database.SqlServer.Test
           FullUrl = "https://midjourney.gitbook.io/docs/",
         };
 
-        _repository.CreateMany(new[]
+        _testContext.Repository.CreateMany(new[]
         {
           route1,
           route2,
         });
-        int changedRows = _dataProvider.SaveChanges();
+        int changedRows = _testContext.DataProvider.SaveChanges();
         Assert.AreEqual(2, changedRows);
 
         route1Id = route1.Id;
@@ -102,8 +95,8 @@ namespace Database.SqlServer.Test
       {
         if (route1Id.HasValue && route2Id.HasValue)
         {
-          _repository.DeleteMany(r => r.Id == route1Id.Value || r.Id == route2Id.Value);
-          int changedRows = _dataProvider.SaveChanges();
+          _testContext.Repository.DeleteMany(r => r.Id == route1Id.Value || r.Id == route2Id.Value);
+          int changedRows = _testContext.DataProvider.SaveChanges();
           Assert.AreEqual(2, changedRows);
         }
       }
@@ -112,40 +105,40 @@ namespace Database.SqlServer.Test
     [TestMethod]
     public void Get()
     {
-      var route = _repository.Get(TestRouteId);
+      var route = _testContext.Repository.Get(TestRouteId);
       Assert.IsNotNull(route);
       Assert.IsNotNull(route.BestBefore);
-      Assert.AreEqual("https://www.youtube.com/c/Nellifornication", route.FullUrl);
+      Assert.AreEqual(TestRouteUrl, route.FullUrl);
     }
 
     [TestMethod]
     public void GetAll()
     {
-      var routes = _repository.GetAll();
+      var routes = _testContext.Repository.GetAll();
       Assert.IsNotNull(routes);
-      Assert.AreEqual(2, routes.Count());
+      Assert.AreEqual(3, routes.Count());
     }
 
     [TestMethod]
     public void GetOne()
     {
-      var route = _repository.GetOne(r => r.BestBefore != null);
+      var route = _testContext.Repository.GetOne(r => r.FullUrl == "https://www.youtube.com/watch?v=v7d6cw-26RA");
       Assert.IsNotNull(route);
-      Assert.IsNotNull(route.BestBefore);
+      Assert.AreEqual("https://www.youtube.com/watch?v=v7d6cw-26RA", route.FullUrl);
     }
 
     [TestMethod]
     public void GetMany()
     {
-      var routes = _repository.GetMany(r => r.BestBefore != null || r.FullUrl == "https://www.youtube.com/watch?v=v7d6cw-26RA");
+      var routes = _testContext.Repository.GetMany(r => r.BestBefore != null || r.FullUrl == "https://www.youtube.com/watch?v=v7d6cw-26RA");
       Assert.IsNotNull(routes);
-      Assert.AreEqual(2, routes.Count());
+      Assert.AreEqual(3, routes.Count());
     }
 
     [TestMethod]
     public void GetQuery()
     {
-      var query = _repository.GetQuery();
+      var query = _testContext.Repository.GetQuery();
       Assert.IsNotNull(query);
 
       var immortalRoutes = query.Where(r => r.BestBefore == null).Select(r => r.FullUrl);
@@ -157,11 +150,11 @@ namespace Database.SqlServer.Test
     [TestMethod]
     public void Update()
     {
-      var route = _repository.Get(TestRouteId);
+      var route = _testContext.Repository.Get(TestRouteId);
       route.BestBefore = DateTime.UtcNow.AddDays(1);
 
-      _repository.Update(route, TestRouteId);
-      int changedRows = _dataProvider.SaveChanges();
+      _testContext.Repository.Update(route, TestRouteId);
+      int changedRows = _testContext.DataProvider.SaveChanges();
       Assert.AreEqual(1, changedRows);
     }
   }
