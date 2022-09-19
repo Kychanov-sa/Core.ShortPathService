@@ -59,9 +59,9 @@ namespace GlacialBytes.ShortPathService.Domain.Data.Commands
     /// <summary>
     /// <see cref="IUnitOfWork{TKey}.CommitAsync()"/>
     /// </summary>
-    public Task CommitAsync()
+    public async Task CommitAsync()
     {
-      return DataProvider.SaveChangesAsync();
+      await DataProvider.SaveChangesAsync();
     }
 
     /// <summary>

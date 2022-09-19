@@ -9,7 +9,7 @@ namespace GlacialBytes.ShortPathService.Persistence.Database
 {
   /// <summary>
   /// Инжектор зависимостей.
-  /// </summary>  
+  /// </summary>
   public static class DependencyInjection
   {
     /// <summary>

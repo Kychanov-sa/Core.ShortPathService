@@ -1,6 +1,6 @@
 ﻿using GlacialBytes.Foundation.Localizations;
 
-namespace GlacialBytes.ShortPathService.Persistence.Database
+namespace GlacialBytes.Core.ShortPathService.Services
 {
   /// <summary>
   /// Локализация для проекта взаимодействия с базой данных.
@@ -13,7 +13,7 @@ namespace GlacialBytes.ShortPathService.Persistence.Database
     static Localization()
     {
       var localizationProvider = (ResourceLocalizationProvider)LocalizationFactory.Instance.GetProvider(ResourceLocalizationProvider.DefaultPrefix);
-      localizationProvider.AddResourceManager("DB", Properties.Resources.ResourceManager);
+      localizationProvider.AddResourceManager("APP", Properties.Resources.ResourceManager);
     }
 
     /// <summary>
@@ -24,7 +24,7 @@ namespace GlacialBytes.ShortPathService.Persistence.Database
     /// <returns>Строка локализации.</returns>
     public static LocalizedString GetString(string code, params object[] parameters)
     {
-      return new LocalizedString(ResourceLocalizationProvider.DefaultPrefix + "DB." + code, parameters);
+      return new LocalizedString(ResourceLocalizationProvider.DefaultPrefix + "APP." + code, parameters);
     }
   }
 }
