@@ -12,6 +12,7 @@
     public RouteExpiredException(string routeId)
       : base(L("ERR_ROUTE_EXPIRED", routeId))
     {
+      ErrorCode = "ERR_ROUTE_EXPIRED";
     }
   }
 }

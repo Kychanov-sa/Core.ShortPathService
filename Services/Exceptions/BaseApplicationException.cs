@@ -11,7 +11,7 @@ namespace GlacialBytes.Core.ShortPathService.Services.Exceptions
     /// <summary>
     /// Код ошибки.
     /// </summary>
-    public int ErrorCode { get; set; }
+    public string ErrorCode { get; set; }
 
     /// <summary>
     /// Детальная информация по ошибке.

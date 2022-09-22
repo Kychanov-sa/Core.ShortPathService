@@ -14,7 +14,7 @@ namespace GlacialBytes.ShortPathService.Persistence.Database.PostgreSql
     /// <param name="services">Коллекция служб.</param>
     /// <param name="connectionString">Строка подключения к базе данных.</param>
     /// <returns>Дополненная коллекция служб.</returns>
-    public static IServiceCollection AddSqlServerDataProviders(this IServiceCollection services, string connectionString)
+    public static IServiceCollection AddPostgreSqlDataContext(this IServiceCollection services, string connectionString)
     {
       services.AddDbContext<PostgreSqlDataContext>(options =>
       {

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Threading;
 using GlacialBytes.Core.ShortPathService.Diagnostics;
@@ -6,10 +6,17 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace ShortPathService
+namespace GlacialBytes.Core.ShortPathService.WebApi.Service
 {
+  /// <summary>
+  /// Базовый класс приложения.
+  /// </summary>
   public class Program
   {
+    /// <summary>
+    /// Точка входа в приложение.
+    /// </summary>
+    /// <param name="args">Параметры запуска.</param>
     public static void Main(string[] args)
     {
       var configuringFileName = "nlog.config";
@@ -40,6 +47,11 @@ namespace ShortPathService
       }
     }
 
+    /// <summary>
+    /// Создает построитель веб-приложения.
+    /// </summary>
+    /// <param name="args">Аргументы.</param>
+    /// <returns>Построитель веб-приложения.</returns>
     public static IHostBuilder CreateHostBuilder(string[] args) =>
       Host.CreateDefaultBuilder(args)
       .ConfigureWebHostDefaults(webBuilder =>

@@ -12,6 +12,7 @@
     public RouteNotFoundException(string routeId)
       : base(L("ERR_ROUTE_NOT_FOUND", routeId))
     {
+      ErrorCode = "ERR_ROUTE_NOT_FOUND";
     }
   }
 }
