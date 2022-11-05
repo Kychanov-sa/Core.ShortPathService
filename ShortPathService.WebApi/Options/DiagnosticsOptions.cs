@@ -8,10 +8,16 @@ namespace GlacialBytes.Core.ShortPathService.WebApi.Service.Options
   public class DiagnosticsOptions
   {
     /// <summary>
-    ///  Признак включения профайлинга запросов
+    /// Настройки трассировки.
     /// </summary>
     [LoggableOption]
-    public bool EnableRequestProfiling { get; set; }
+    public TracingOptions Tracing { get; set; }
+
+    /// <summary>
+    /// Настройки профайлинга.
+    /// </summary>
+    [LoggableOption]
+    public ProfilingOptions Profiling { get; set; }
 
     /// <summary>
     /// Признак логирования опций при запуске приложения.

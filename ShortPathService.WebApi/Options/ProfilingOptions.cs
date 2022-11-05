@@ -3,14 +3,14 @@
 namespace GlacialBytes.Core.ShortPathService.WebApi.Service.Options
 {
   /// <summary>
-  /// Опции безопасности.
+  /// Настройка профайлинга.
   /// </summary>
-  public class SecurityOptions
+  public class ProfilingOptions
   {
     /// <summary>
-    /// Признак включения ведения журнала аудита безопасности.
+    /// <c>true</c>, если профайлинг включен.
     /// </summary>
     [LoggableOption]
-    public bool EnableAudit { get; set; }
+    public bool Enabled { get; set; }
   }
 }

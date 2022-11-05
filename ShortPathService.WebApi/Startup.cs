@@ -1,45 +1,41 @@
 ﻿using System;
-using System.Text.Json;
-using System.Collections.Generic;
 using System.Data.Common;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Threading;
+using System.Text.Json;
 using System.Threading.Tasks;
-using System.Xml;
+using GlacialBytes.Core.ShortPathService.Diagnostics;
 using GlacialBytes.Core.ShortPathService.Services;
 using GlacialBytes.Core.ShortPathService.WebApi.Service.Exceptions;
 using GlacialBytes.Foundation.Dependencies;
-using GlacialBytes.Foundation.Diagnostics;
-using GlacialBytes.Foundation.Localizations;
 using GlacialBytes.ShortPathService.Persistence.Database;
 using GlacialBytes.ShortPathService.Persistence.Database.PostgreSql;
 using GlacialBytes.ShortPathService.Persistence.Database.SqlServer;
-using Microsoft.AspNetCore.Authentication;
+using Jaeger.Samplers;
+using Jaeger.Senders;
+using Jaeger.Senders.Thrift;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Http;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
-using GlacialBytes.Core.ShortPathService.Diagnostics;
+using OpenTracing;
+using OpenTracing.Util;
+using static Jaeger.Configuration;
 
 namespace GlacialBytes.Core.ShortPathService.WebApi.Service
 {
@@ -49,6 +45,12 @@ namespace GlacialBytes.Core.ShortPathService.WebApi.Service
   public class Startup
   {
     /// <summary>
+    /// Тип конфигуратора выборки.
+    /// https://www.jaegertracing.io/docs/1.26/sampling/
+    /// </summary>
+    private const string JaegerSamplerType = "const";
+
+    /// <summary>
     /// Конфигурация.
     /// </summary>
     public IConfiguration Configuration { get; }
@@ -57,11 +59,6 @@ namespace GlacialBytes.Core.ShortPathService.WebApi.Service
     /// Версия сервиса.
     /// </summary>
     public string ServiceVersion { get; } = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
-    /// <summary>
-    /// Стандартное ограничение по времени на провеку здоровья.
-    /// </summary>
-    private readonly TimeSpan _defaultHealthCheckTimeout = new (0, 1, 0);
 
     /// <summary>
     /// Системные теги проверки.
@@ -88,6 +85,10 @@ namespace GlacialBytes.Core.ShortPathService.WebApi.Service
     /// <param name="services">Коллекция служб.</param>
     public void ConfigureServices(IServiceCollection services)
     {
+      // Создаём временный провайдер сервисов, который используется подсистемой логирования при запуске приложения
+      var temporaryServiceProvider = services.BuildServiceProvider();
+      ServiceActivator.Configure(temporaryServiceProvider);
+
       // Опции
       services.Configure<Options.GeneralOptions>(Configuration.GetSection("General"));
       services.Configure<Options.AuthenticationOptions>(Configuration.GetSection("Authentication"));
@@ -124,13 +125,9 @@ namespace GlacialBytes.Core.ShortPathService.WebApi.Service
       }).AddControllersAsServices();
       services.AddHttpContextAccessor();
 
-#if false
       // Трассировка
-      var tracing = Configuration.GetSection("Tracing").Get<TracingOptions>();
-      OptionsValidation.Validate(tracing, new TracingOptionsValidator(), "Tracing");
-      if (tracing != null && tracing.Enabled)
-        services.AddTracing(tracing);
-#endif
+      var tracingOptions = Configuration.GetSection("Diagnostics").Get<Options.DiagnosticsOptions>().Tracing;
+      AddTracingServices(services, tracingOptions, temporaryServiceProvider);
 
       // Сервисы достуа к данным
       AddDataProviders(services);
@@ -157,6 +154,48 @@ namespace GlacialBytes.Core.ShortPathService.WebApi.Service
       // Логирование конфигурации приложения.
       services.AddSingleton<OptionsLogger>();
 #endif
+    }
+
+    /// <summary>
+    /// Добавляет сервисы трассировки.
+    /// </summary>
+    /// <param name="services">Коллекция сервисов.</param>
+    /// <param name="tracingOptions">Опции трассировки.</param>
+    /// <param name="serviceProvider">Провайдер сервисов.</param>
+    private static void AddTracingServices(
+      IServiceCollection services,
+      Options.TracingOptions tracingOptions,
+      IServiceProvider serviceProvider)
+    {
+      if (tracingOptions != null && tracingOptions.Enabled)
+      {
+        var serviceName = !String.IsNullOrWhiteSpace(tracingOptions.ServiceName)
+          ? tracingOptions.ServiceName
+          : serviceProvider.GetRequiredService<IWebHostEnvironment>().ApplicationName;
+
+        var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+        var senderConfiguration = new SenderConfiguration(loggerFactory)
+          .WithAgentHost(tracingOptions.AgentHost)
+          .WithAgentPort(tracingOptions.AgentPort)
+          .WithSenderResolver(new SenderResolver(loggerFactory).RegisterSenderFactory<ThriftSenderFactory>());
+        var reporterConfiguration = new ReporterConfiguration(loggerFactory);
+        reporterConfiguration.WithSender(senderConfiguration);
+
+        var samplerConfiguration = new SamplerConfiguration(loggerFactory);
+        var tracer = new Jaeger.Configuration(serviceName, loggerFactory)
+          .WithReporter(reporterConfiguration)
+          .WithSampler(samplerConfiguration.WithType(JaegerSamplerType))
+          .GetTracerBuilder()
+          .WithSampler(new ConstSampler(sample: true))
+          .Build();
+
+        services.AddOpenTracing();
+        services.AddSingleton<ITracer>(tracer);
+        if (!GlobalTracer.IsRegistered())
+        {
+          GlobalTracer.Register(tracer);
+        }
+      }
     }
 
     /// <summary>
