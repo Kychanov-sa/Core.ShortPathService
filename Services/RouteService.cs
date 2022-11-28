@@ -1,6 +1,6 @@
 ﻿using System;
+using Ardalis.GuardClauses;
 using CSharpVitamins;
-using GlacialBytes.Foundation.Diagnostics;
 using GlacialBytes.ShortPathService.Domain.Data;
 using GlacialBytes.ShortPathService.Domain.Data.Commands;
 
@@ -32,7 +32,7 @@ namespace GlacialBytes.Core.ShortPathService.Services
     /// </summary>
     public string AddRoute(Uri resourceLocation, DateTime? bestBefore)
     {
-      DebugAssert.IsNotNull(resourceLocation);
+      Guard.Against.Null(resourceLocation, nameof(resourceLocation));
 
       var addCommand = new AddRouteCommand(_dataProvider);
       var routeId = addCommand.Execute(new AddRouteCommandArgs()

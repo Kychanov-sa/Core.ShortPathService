@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32602.291
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Service", "ShortPathService.WebApi\WebApi.Service.csproj", "{50EF93A0-A3F6-490F-80C8-93E9FA90E057}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Service", "WebApi.Service\WebApi.Service.csproj", "{50EF93A0-A3F6-490F-80C8-93E9FA90E057}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{EDD96F90-34E9-4F6D-B4A1-895CFB274A58}"
 EndProject
@@ -53,7 +53,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WebApi", "WebApi\WebApi.shp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{FAF3868E-F9E2-40D6-AF41-E68F1DBE91A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base.Test", "Base.Test\Base.Test.csproj", "{3A1BFB8C-28A1-4E0D-A88D-91FAB52A7A94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Base.Test", "Base.Test\Base.Test.csproj", "{3A1BFB8C-28A1-4E0D-A88D-91FAB52A7A94}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{EA8EF3CC-3750-4260-84C2-BF60A5506F04}"
 EndProject
@@ -62,12 +62,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SqlServer", "SqlServer", "{
 		Deployment\SqlServer\InitializeDatabase.sql = Deployment\SqlServer\InitializeDatabase.sql
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{43805D39-B829-43C0-BC1B-E15417017C9B}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		WebApi\WebApi.projitems*{0b1440e2-5476-433f-a92f-706f5e5847a5}*SharedItemsImports = 5
-		WebApi\WebApi.projitems*{50ef93a0-a3f6-490f-80c8-93e9fa90e057}*SharedItemsImports = 5
-		WebApi\WebApi.projitems*{7e42cb5c-47b4-4c6c-b4e8-07ac9e9c396b}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -168,5 +169,10 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {97C00A3E-2091-4FCD-AF7E-C945ADED2275}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		WebApi\WebApi.projitems*{0b1440e2-5476-433f-a92f-706f5e5847a5}*SharedItemsImports = 5
+		WebApi\WebApi.projitems*{50ef93a0-a3f6-490f-80c8-93e9fa90e057}*SharedItemsImports = 5
+		WebApi\WebApi.projitems*{7e42cb5c-47b4-4c6c-b4e8-07ac9e9c396b}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal
