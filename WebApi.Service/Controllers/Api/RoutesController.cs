@@ -1,11 +1,10 @@
 ﻿using System;
 using GlacialBytes.Core.ShortPathService.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using GlacialBytes.Core.ShortPathService.WebApi.TransferModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using System.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace GlacialBytes.Core.ShortPathService.WebApi.Service.Controllers.Api
 {
@@ -52,7 +51,7 @@ namespace GlacialBytes.Core.ShortPathService.WebApi.Service.Controllers.Api
       {
         Id = routeId,
         BestBefore = createRoute.BestBefore,
-        Url = new Uri(_serviceBaseAddress, routeId).ToString(),
+        ShortUrl = new Uri(_serviceBaseAddress, routeId).ToString(),
       };
 
       return Ok(route);

@@ -2,6 +2,9 @@
 
 namespace GlacialBytes.Core.ShortPathService.WebApi.TransferModels
 {
+  /// <summary>
+  /// Модель маршрута.
+  /// </summary>
   public class Route
   {
     /// <summary>
@@ -10,9 +13,9 @@ namespace GlacialBytes.Core.ShortPathService.WebApi.TransferModels
     public string Id { get; set; }
 
     /// <summary>
-    /// Адрес маршрута.
+    /// Короткий адрес маршрута.
     /// </summary>
-    public string Url { get; set; }
+    public string ShortUrl { get; set; }
 
     /// <summary>
     /// Срок действия.
