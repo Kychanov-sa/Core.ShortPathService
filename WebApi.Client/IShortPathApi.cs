@@ -1,8 +1,9 @@
-﻿using System.Threading.Tasks;
-using Refit;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
 using GlacialBytes.Core.ShortPathService.WebApi.TransferModels;
+using Refit;
 
-namespace ShortPathService.WebApi.WebApi.Client
+namespace GlacialBytes.Core.ShortPathService.WebApi.Client
 {
   /// <summary>
   /// Интерфейс API коротких путей.
@@ -15,7 +16,14 @@ namespace ShortPathService.WebApi.WebApi.Client
     /// <param name="createRoute">Данные нового маршрута.</param>
     /// <param name="authorization">Значение заголовка авторизации.</param>
     /// <returns>Данные созданного маршрута.</returns>
-    [Post("api/routes")]
+    [Post("/api/routes")]
     Task<Route> CreateRoute([Body] CreateRoute createRoute, [Header("Authorization")] string authorization);
+
+    /// <summary>
+    /// Проверка жизнеспособности сервиса.
+    /// </summary>
+    /// <returns>Ответ на проверку жизнеспособности сервиса.</returns>
+    [Get("/health")]
+    Task<HttpResponseMessage> HealthCheck();
   }
 }
