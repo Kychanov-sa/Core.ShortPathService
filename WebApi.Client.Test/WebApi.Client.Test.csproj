@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Base.Test\Base.Test.csproj" />
-    <ProjectReference Include="..\WebApi.Client\WebApi.Client.csproj" />
   </ItemGroup>
 
 </Project>

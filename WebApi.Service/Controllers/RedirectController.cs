@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GlacialBytes.Core.ShortPathService.Services;
+using GlacialBytes.Core.ShortPathService.Services.Exceptions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,8 +40,15 @@ namespace GlacialBytes.Core.ShortPathService.WebApi.Service.Controllers
     [HttpGet("{routeId}")]
     public IActionResult RedirectByRoute(string routeId)
     {
-      var redirectionUrl = _redirectionService.GetRedirectUrl(routeId);
-      return Redirect(redirectionUrl.ToString());
+      try
+      {
+        var redirectionUrl = _redirectionService.GetRedirectUrl(routeId);
+        return Redirect(redirectionUrl.ToString());
+      }
+      catch (BaseApplicationException)
+      {
+        return NotFound();
+      }
     }
   }
 }
