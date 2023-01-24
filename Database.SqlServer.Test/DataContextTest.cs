@@ -26,19 +26,5 @@ namespace Database.SqlServer.Test
       bool isDatabaseAvailable = _testContext.DataContext.Database.CanConnect();
       Assert.IsTrue(isDatabaseAvailable);
     }
-
-    [TestMethod]
-    public void GetDataBaseSchemeVersion()
-    {
-      string databaseSchemeVersion = _testContext.DataContext.GetDataBaseSchemeVersion();
-      Assert.AreEqual("1.0.2", databaseSchemeVersion);
-    }
-
-    [TestMethod]
-    public void GetDataContextSchemeVersion()
-    {
-      string dataContextSchemeVersion = _testContext.DataContext.GetDataContextSchemeVersion();
-      Assert.AreEqual("1.0.2", dataContextSchemeVersion);
-    }
   }
 }

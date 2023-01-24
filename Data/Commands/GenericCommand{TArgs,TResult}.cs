@@ -8,7 +8,7 @@ namespace GlacialBytes.ShortPathService.Domain.Data.Commands
   /// </summary>
   /// <typeparam name="TArgs">Тип аргументов команды.</typeparam>
   /// <typeparam name="TResult">Тип результата команды.</typeparam>
-  public abstract class GenericCommand<TArgs, TResult> : UnitOfWork, ICommand<Guid, TArgs, TResult>
+  public abstract class GenericCommand<TArgs, TResult> : UnitOfWork, ICommand<long, TArgs, TResult>
   {
     /// <summary>
     /// Конструктор.

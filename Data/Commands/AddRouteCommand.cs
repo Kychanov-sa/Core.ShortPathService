@@ -7,7 +7,7 @@ namespace GlacialBytes.ShortPathService.Domain.Data.Commands
   /// <summary>
   /// Команда создания нового маршрута.
   /// </summary>
-  public class AddRouteCommand : GenericCommand<AddRouteCommandArgs, Guid>
+  public class AddRouteCommand : GenericCommand<AddRouteCommandArgs, long>
   {
     /// <summary>
     /// Конструктор.
@@ -23,12 +23,13 @@ namespace GlacialBytes.ShortPathService.Domain.Data.Commands
     /// <summary>
     /// <see cref="ICommand{TKey, TArgs, TResult}.Execute(TArgs)"/>
     /// </summary>
-    public override Guid Execute(AddRouteCommandArgs args)
+    public override long Execute(AddRouteCommandArgs args)
     {
       DebugAssert.IsNotNull(args);
 
       var route = new Route()
       {
+        Id = args.Id,
         FullUrl = args.Url,
         BestBefore = args.BestBefore,
       };

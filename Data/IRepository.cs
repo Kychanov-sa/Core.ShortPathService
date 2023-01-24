@@ -8,8 +8,8 @@ namespace GlacialBytes.ShortPathService.Domain.Data
   /// Интерфейс репозитория для хранилища.
   /// </summary>
   /// <typeparam name="T">Тип моделей репозитория.</typeparam>
-  public interface IRepository<T> : IRepository<Guid, T>
-      where T : DataModel<Guid>
+  public interface IRepository<T> : IRepository<long, T>
+      where T : DataModel<long>
   {
     /// <summary>
     /// Получить количество записей.

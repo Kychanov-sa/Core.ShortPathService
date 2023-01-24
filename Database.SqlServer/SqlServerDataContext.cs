@@ -12,7 +12,7 @@ namespace GlacialBytes.ShortPathService.Persistence.Database.SqlServer
     /// Конструктор.
     /// </summary>
     public SqlServerDataContext()
-      : base("Data Source=ORPD5SQL01\\SQL2017;Initial Catalog=EssSimpleSign_Dev;Integrated Security=False;User ID=sa;Password=Orpd5Admin!;")
+      : base("Data Source=;Initial Catalog=;Integrated Security=False;User ID=;Password=;")
     {
     }
 
@@ -47,30 +47,6 @@ namespace GlacialBytes.ShortPathService.Persistence.Database.SqlServer
         optionsBuilder.UseSqlServer(_connectionString);
       }
       optionsBuilder.UseLazyLoadingProxies();
-    }
-
-    /// <summary>
-    /// <see cref="DataContext.GetDataBaseSchemeVersion"/>
-    /// </summary>
-    public override string GetDataBaseSchemeVersion()
-    {
-      var parameterReturn = new Microsoft.Data.SqlClient.SqlParameter
-      {
-        ParameterName = "@ReturnValue",
-        SqlDbType = System.Data.SqlDbType.VarChar,
-        Direction = System.Data.ParameterDirection.Output,
-        Size = 50,
-      };
-      _ = Database.ExecuteSqlRaw("[dbo].[GetDataSchemeVersion] @ReturnValue OUT", parameterReturn);
-      return parameterReturn.Value.ToString();
-    }
-
-    /// <summary>
-    /// <see cref="DataContext.GetDataContextSchemeVersion"/>
-    /// </summary>
-    public override string GetDataContextSchemeVersion()
-    {
-      return $"1.0.{Database.GetMigrations().Count()}";
     }
   }
 }

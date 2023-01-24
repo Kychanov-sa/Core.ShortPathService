@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace GlacialBytes.ShortPathService.Persistence.Database.SqlServer.Migrations
+namespace GlacialBytes.ShortPathService.Persistence.Database.PostgreSql.Migrations
 {
-    public partial class InitialState : Migration
+    public partial class InitialDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,9 +11,9 @@ namespace GlacialBytes.ShortPathService.Persistence.Database.SqlServer.Migration
                 name: "Routes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FullUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BestBefore = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    FullUrl = table.Column<string>(type: "text", nullable: false),
+                    BestBefore = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {

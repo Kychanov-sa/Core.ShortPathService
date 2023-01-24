@@ -12,7 +12,7 @@ namespace GlacialBytes.ShortPathService.Persistence.Database.PostgreSql
     /// Конструктор.
     /// </summary>
     public PostgreSqlDataContext()
-      : base("Host=hrpro-dev-common.rx;Port=5432;Database=SelfServiceOffice_Dev;Username=postgres;Password=11111;")
+      : base("Host=;Port=;Database=;Username=;Password=;")
     {
     }
 
@@ -46,30 +46,6 @@ namespace GlacialBytes.ShortPathService.Persistence.Database.PostgreSql
         optionsBuilder.UseNpgsql(_connectionString);
       }
       optionsBuilder.UseLazyLoadingProxies();
-    }
-
-    /// <summary>
-    /// <see cref="DataContext.GetDataBaseSchemeVersion"/>
-    /// </summary>
-    public override string GetDataBaseSchemeVersion()
-    {
-      var parameterReturn = new Npgsql.NpgsqlParameter
-      {
-        ParameterName = "@ReturnValue",
-        NpgsqlDbType = NpgsqlTypes.NpgsqlDbType.Varchar,
-        Direction = System.Data.ParameterDirection.Output,
-        Size = 50,
-      };
-      _ = Database.ExecuteSqlRaw("CALL getdataschemeversion(null);", parameterReturn);
-      return parameterReturn.Value.ToString();
-    }
-
-    /// <summary>
-    /// <see cref="DataContext.GetDataContextSchemeVersion"/>
-    /// </summary>
-    public override string GetDataContextSchemeVersion()
-    {
-      return $"1.0.{Database.GetMigrations().Count()}";
     }
   }
 }

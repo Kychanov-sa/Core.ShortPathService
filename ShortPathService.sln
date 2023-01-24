@@ -70,6 +70,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Client.Test", "WebApi.Client.Test\WebApi.Client.Test.csproj", "{E7E3EFFB-38F3-422D-BBBD-E9DB2CC28354}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PostgreSql", "PostgreSql", "{3FE6FBE9-A76B-4710-8C69-91255A3A12E1}"
+	ProjectSection(SolutionItems) = preProject
+		Deployment\PostgreSql\InitializeDatabase.sql = Deployment\PostgreSql\InitializeDatabase.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -172,6 +177,7 @@ Global
 		{3A1BFB8C-28A1-4E0D-A88D-91FAB52A7A94} = {0A1153CE-1FED-475F-ABA5-8010CAFB9ECA}
 		{C669707D-E84B-4F94-B78F-731C15331E5C} = {EA8EF3CC-3750-4260-84C2-BF60A5506F04}
 		{E7E3EFFB-38F3-422D-BBBD-E9DB2CC28354} = {0A1153CE-1FED-475F-ABA5-8010CAFB9ECA}
+		{3FE6FBE9-A76B-4710-8C69-91255A3A12E1} = {EA8EF3CC-3750-4260-84C2-BF60A5506F04}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {97C00A3E-2091-4FCD-AF7E-C945ADED2275}

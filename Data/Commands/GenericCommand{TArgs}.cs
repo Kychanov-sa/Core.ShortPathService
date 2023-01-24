@@ -7,7 +7,7 @@ namespace GlacialBytes.ShortPathService.Domain.Data.Commands
   /// Обобщённая команда без результата.
   /// </summary>
   /// <typeparam name="TArgs">Тип аргументов команды.</typeparam>
-  public abstract class GenericCommand<TArgs> : UnitOfWork, ICommand<Guid, TArgs>
+  public abstract class GenericCommand<TArgs> : UnitOfWork, ICommand<long, TArgs>
   {
     /// <summary>
     /// Конструктор.

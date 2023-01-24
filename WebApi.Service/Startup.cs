@@ -15,6 +15,8 @@ using GlacialBytes.Foundation.Dependencies;
 using GlacialBytes.ShortPathService.Persistence.Database;
 using GlacialBytes.ShortPathService.Persistence.Database.PostgreSql;
 using GlacialBytes.ShortPathService.Persistence.Database.SqlServer;
+using IdGen;
+using IdGen.DependencyInjection;
 using Jaeger.Samplers;
 using Jaeger.Senders;
 using Jaeger.Senders.Thrift;
@@ -234,10 +236,14 @@ namespace GlacialBytes.Core.ShortPathService.WebApi.Service
     /// <param name="services">Коллекция сервисов.</param>
     private void AddInfrastructureServices(IServiceCollection services)
     {
+      var generalOptions = Configuration.GetSection("General").Get<Options.GeneralOptions>();
+
       services.AddExceptionHandling();
 #if false
       services.AddApplicationCache();
 #endif
+      int generatorId = (generalOptions.DataCenterId & 0x3) << 8 | generalOptions.ServiceInstanceId & 0xff;
+      services.AddIdGen(generatorId);
     }
 
     /// <summary>

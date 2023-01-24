@@ -17,7 +17,7 @@ namespace GlacialBytes.ShortPathService.Persistence.Database
   /// </summary>
   /// <typeparam name="T">Тип хранимых моделей.</typeparam>
   internal class GenericRepository<T> : IRepository<T>
-      where T : DataModel<Guid>
+      where T : DataModel<long>
   {
     /// <summary>
     /// Контекст данных.
@@ -126,20 +126,20 @@ namespace GlacialBytes.ShortPathService.Persistence.Database
     /// <summary>
     /// <see cref="IRepository{T, TItem}.Delete(T)"/>
     /// </summary>
-    public void Delete(Guid key)
+    public void Delete(long key)
     {
       var deletingObject = _set.FirstOrDefault(e => e.Id == key);
       _set.Remove(deletingObject);
     }
 
     /// <inheritdoc/>
-    public Task DeleteAsync(Guid key)
+    public Task DeleteAsync(long key)
     {
       throw new NotImplementedException();
     }
 
     /// <inheritdoc/>
-    public Task DeleteAsync(Guid key, CancellationToken cancellationToken)
+    public Task DeleteAsync(long key, CancellationToken cancellationToken)
     {
       DebugAssert.IsNotNull(cancellationToken);
       throw new NotImplementedException();
@@ -176,19 +176,19 @@ namespace GlacialBytes.ShortPathService.Persistence.Database
     /// <summary>
     /// <see cref="IRepository{T, TItem}.Get(T)"/>
     /// </summary>
-    public T Get(Guid key)
+    public T Get(long key)
     {
       return _set.SingleOrDefault(e => e.Id == key);
     }
 
     /// <inheritdoc/>
-    public Task<T> GetAsync(Guid key)
+    public Task<T> GetAsync(long key)
     {
       throw new NotImplementedException();
     }
 
     /// <inheritdoc/>
-    public Task<T> GetAsync(Guid key, CancellationToken cancellationToken)
+    public Task<T> GetAsync(long key, CancellationToken cancellationToken)
     {
       DebugAssert.IsNotNull(cancellationToken);
       throw new NotImplementedException();
@@ -291,7 +291,7 @@ namespace GlacialBytes.ShortPathService.Persistence.Database
     /// <summary>
     /// <see cref="IRepository{T, TItem}.Update(TItem, T)"/>
     /// </summary>
-    public void Update(T item, Guid key)
+    public void Update(T item, long key)
     {
       DebugAssert.IsNotNull(item);
       var current = _set.FirstOrDefault(e => e.Id == key);
@@ -302,14 +302,14 @@ namespace GlacialBytes.ShortPathService.Persistence.Database
     }
 
     /// <inheritdoc/>
-    public Task UpdateAsync(T item, Guid key)
+    public Task UpdateAsync(T item, long key)
     {
       DebugAssert.IsNotNull(item);
       throw new NotImplementedException();
     }
 
     /// <inheritdoc/>
-    public Task UpdateAsync(T item, Guid key, CancellationToken cancellationToken)
+    public Task UpdateAsync(T item, long key, CancellationToken cancellationToken)
     {
       DebugAssert.IsNotNull(item);
       DebugAssert.IsNotNull(cancellationToken);

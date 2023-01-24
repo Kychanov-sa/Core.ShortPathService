@@ -7,7 +7,7 @@ namespace Database.SqlServer.Test.TestContexts
 {
   public class GivenRouteRepositoryAcquired : GivenDataProviderCreated
   {
-    public IRepository<Guid, Route> Repository { get; set; }
+    public IRepository<long, Route> Repository { get; set; }
 
     public override void Initialize(string databaseConnectionString)
     {

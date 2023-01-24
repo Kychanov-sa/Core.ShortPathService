@@ -105,20 +105,9 @@ namespace GlacialBytes.ShortPathService.Persistence.Database
       // Записи путей
       modelBuilder.Entity<DataModels.Route>().ToTable("Routes");
       modelBuilder.Entity<DataModels.Route>().HasKey(r => r.Id);
+      modelBuilder.Entity<DataModels.Route>().Property(r => r.Id).ValueGeneratedNever();
       modelBuilder.Entity<DataModels.Route>().Property(r => r.FullUrl).IsRequired();
     }
     #endregion
-
-    /// <summary>
-    /// Возвращает версию схемы базы данных.
-    /// </summary>
-    /// <returns>Версия схемы базы данных.</returns>
-    public abstract string GetDataBaseSchemeVersion();
-
-    /// <summary>
-    /// Возвращает версию схемы контекста данных.
-    /// </summary>
-    /// <returns>Версия схемы контекста данных.</returns>
-    public abstract string GetDataContextSchemeVersion();
   }
 }

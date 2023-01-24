@@ -1,6 +1,5 @@
-﻿using CSharpVitamins;
+﻿using Base62;
 using Database.SqlServer.Test;
-using System;
 
 namespace Services.Test
 {
@@ -8,22 +7,22 @@ namespace Services.Test
   {
     public string ExpiredRouteId
     {
-      get { return new ShortGuid(Guid.Parse("{d3eb7e5e-c8b1-4501-97c3-2281a874362c}")).ToString(); }
+      get { return 3L.ToBase62(); }
     }
 
     public string ValidRouteId
     {
-      get { return new ShortGuid(Guid.Parse("{ee8d4c33-23e2-4e7c-a152-abb0de3ad59e}")).ToString(); }
+      get { return 1L.ToBase62(); }
     }
 
     public string InvalidRouteId
     {
-      get { return "invalid id"; }
+      get { return "1"; }
     }
 
     public string NotExistsRouteId
     {
-      get { return new ShortGuid(Guid.NewGuid()).ToString(); }
+      get { return 5L.ToBase62(); }
     }
   }
 }

@@ -1,8 +1,9 @@
 ﻿using System;
 using Ardalis.GuardClauses;
-using CSharpVitamins;
 using GlacialBytes.ShortPathService.Domain.Data;
 using GlacialBytes.ShortPathService.Domain.Data.Commands;
+using IdGen;
+using Base62;
 
 namespace GlacialBytes.Core.ShortPathService.Services
 {
@@ -17,12 +18,19 @@ namespace GlacialBytes.Core.ShortPathService.Services
     private readonly IDataProvider _dataProvider;
 
     /// <summary>
+    /// Генератор идентификатров.
+    /// </summary>
+    private readonly IIdGenerator<long> _idGenerator;
+
+    /// <summary>
     /// Конструктор.
     /// </summary>
     /// <param name="dataProvider">Провайдер данных.</param>
-    public RouteService(IDataProvider dataProvider)
+    /// <param name="idGenerator">Генератор идентификатров.</param>
+    public RouteService(IDataProvider dataProvider, IIdGenerator<long> idGenerator)
     {
       _dataProvider = dataProvider;
+      _idGenerator = idGenerator;
     }
 
     #region IRouteService
@@ -37,11 +45,12 @@ namespace GlacialBytes.Core.ShortPathService.Services
       var addCommand = new AddRouteCommand(_dataProvider);
       var routeId = addCommand.Execute(new AddRouteCommandArgs()
       {
+        Id = _idGenerator.CreateId(),
         Url = resourceLocation.ToString(),
         BestBefore = bestBefore,
       });
 
-      return new ShortGuid(routeId).ToString();
+      return routeId.ToBase62();
     }
 
     #endregion

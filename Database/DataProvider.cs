@@ -47,8 +47,8 @@ namespace GlacialBytes.ShortPathService.Persistence.Database
     /// <see cref="IDataProvider{TKey}.GetRepository{TItem}"/>
     /// </summary>
     /// <typeparam name="TItem">Тип хранимых данных.</typeparam>
-    public IRepository<Guid, TItem> GetRepository<TItem>()
-        where TItem : DataModel<Guid>
+    public IRepository<long, TItem> GetRepository<TItem>()
+        where TItem : DataModel<long>
     {
       return new GenericRepository<TItem>(_context);
     }
