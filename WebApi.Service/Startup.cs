@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.IO;
 using System.Linq;
@@ -123,7 +124,7 @@ namespace GlacialBytes.Core.ShortPathService.WebApi.Service
               Location = ResponseCacheLocation.Any,
             });
 
-        //options.AddAuditFilter(config => { config.LogAllActions().IncludeHeaders(false).IncludeResponseHeaders(false).IncludeResponseBody(false).IncludeRequestBody(false); });
+        // options.AddAuditFilter(config => { config.LogAllActions().IncludeHeaders(false).IncludeResponseHeaders(false).IncludeResponseBody(false).IncludeRequestBody(false); });
       }).AddControllersAsServices();
       services.AddHttpContextAccessor();
 
@@ -278,47 +279,56 @@ namespace GlacialBytes.Core.ShortPathService.WebApi.Service
       services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
       .AddJwtBearer(options =>
       {
-        SecurityKey securityKey = null;
-        try
-        {
-          if (!String.IsNullOrEmpty(authenticationOptions.SigningCertificatePath))
-          {
-            var certificate = new X509Certificate2(authenticationOptions.SigningCertificatePath);
+        var trustedIssuers = new List<string>();
+        var trustedSecurityKeys = new List<SecurityKey>();
 
-            securityKey = new X509SecurityKey(certificate);
-          }
-          else if (String.IsNullOrEmpty(authenticationOptions.SigningCertificateThumbprint))
-          {
-            securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(authenticationOptions.EncryptionKey));
-          }
-          else
-          {
-            var storeLocation = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ?
-              StoreLocation.CurrentUser : StoreLocation.LocalMachine;
-            using var store = new X509Store(StoreName.My, storeLocation);
-            store.Open(OpenFlags.ReadOnly);
-            var certificates = store.Certificates.Find(X509FindType.FindByThumbprint, authenticationOptions.SigningCertificateThumbprint, true);
-            if (certificates.Count == 0)
-              throw new CertificateNotFoundException(authenticationOptions.SigningCertificateThumbprint);
-            securityKey = new X509SecurityKey(certificates[0]);
-            store.Close();
-          }
-        }
-        catch (Exception ex)
+        foreach (var trustedIssuer in authenticationOptions.TrustedIssuers)
         {
-          Log.Exception(ex);
+          try
+          {
+            SecurityKey securityKey;
+            if (!String.IsNullOrEmpty(trustedIssuer.SigningCertificatePath))
+            {
+              var certificate = new X509Certificate2(trustedIssuer.SigningCertificatePath);
+
+              securityKey = new X509SecurityKey(certificate);
+            }
+            else if (String.IsNullOrEmpty(trustedIssuer.SigningCertificateThumbprint))
+            {
+              securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(trustedIssuer.EncryptionKey));
+            }
+            else
+            {
+              var storeLocation = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ?
+                StoreLocation.CurrentUser : StoreLocation.LocalMachine;
+              using var store = new X509Store(StoreName.My, storeLocation);
+              store.Open(OpenFlags.ReadOnly);
+              var certificates = store.Certificates.Find(X509FindType.FindByThumbprint, trustedIssuer.SigningCertificateThumbprint, true);
+              if (certificates.Count == 0)
+                throw new CertificateNotFoundException(trustedIssuer.SigningCertificateThumbprint);
+              securityKey = new X509SecurityKey(certificates[0]);
+              store.Close();
+            }
+
+            trustedIssuers.Add(trustedIssuer.Issuer);
+            trustedSecurityKeys.Add(securityKey);
+          }
+          catch (Exception ex)
+          {
+            Log.Exception(ex);
+          }
         }
 
         options.RequireHttpsMetadata = false;
         options.TokenValidationParameters = new TokenValidationParameters
         {
           ValidateIssuer = true,
-          ValidIssuer = authenticationOptions.TrustedIssuer,
+          ValidIssuers = trustedIssuers,
           ValidateAudience = true,
           ValidAudience = authenticationOptions.Audience,
           ValidateLifetime = true,
           ValidateIssuerSigningKey = true,
-          IssuerSigningKey = securityKey,
+          IssuerSigningKeys = trustedSecurityKeys,
           SaveSigninToken = true,
         };
       });
@@ -377,10 +387,9 @@ namespace GlacialBytes.Core.ShortPathService.WebApi.Service
     /// </summary>
     /// <param name="app">Построитель приложения.</param>
     /// <param name="env">Окружение хостинга.</param>
-    /// <param name="settingsLogger">Логгер конфигурации приложения.</param>
     /// <param name="diagnosticsOptions">Опции диагностики.</param>
+    /// /// <param name="globalizationOptions">Опции глобализации.</param>
     /// <param name="securityOptions">Опции безопасности.</param>
-    /// <param name="globalizationOptions">Опции глобализации.</param>
     public void Configure(
       IApplicationBuilder app,
       IWebHostEnvironment env,

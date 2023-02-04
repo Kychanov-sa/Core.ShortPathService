@@ -1,10 +1,7 @@
-﻿using GlacialBytes.Core.ShortPathService.WebApi.Service.Options;
+﻿using System.Threading.Tasks;
+using GlacialBytes.Core.ShortPathService.WebApi.Service.Options;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using System.Globalization;
-using System.Threading.Tasks;
-using System.Threading;
-using System;
 
 namespace GlacialBytes.Core.ShortPathService.WebApi.Service.Middleware
 {
@@ -33,7 +30,7 @@ namespace GlacialBytes.Core.ShortPathService.WebApi.Service.Middleware
     /// <summary>
     /// Обработчик запроса.
     /// </summary>
-    /// <param name="context"0>Контекст запроса.</param>
+    /// <param name="context">Контекст запроса.</param>
     public async Task InvokeAsync(HttpContext context)
     {
 #if false
