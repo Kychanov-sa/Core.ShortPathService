@@ -10,7 +10,7 @@ namespace GlacialBytes.ShortPathService.Domain.Data.Commands
   /// <summary>
   /// Абстрактный класс единицы работы.
   /// </summary>
-  public abstract class UnitOfWork : IUnitOfWork<Guid>
+  public abstract class UnitOfWork : IUnitOfWork<long>
   {
     /// <summary>
     /// Признак, указывающий является ли класс владельцем провайдера данных.
@@ -46,7 +46,7 @@ namespace GlacialBytes.ShortPathService.Domain.Data.Commands
     /// <summary>
     /// <see cref="IUnitOfWork{TKey}.DataProvider"/>
     /// </summary>
-    public IDataProvider<Guid> DataProvider { get; private set; }
+    public IDataProvider<long> DataProvider { get; private set; }
 
     /// <summary>
     /// <see cref="IUnitOfWork{TKey}.Commit"/>

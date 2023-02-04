@@ -13,9 +13,9 @@ namespace Database.SqlServer.Test
       }
     }
 
-    public Guid TestRouteId
+    public long TestRouteId
     {
-      get { return Guid.Parse("{ee8d4c33-23e2-4e7c-a152-abb0de3ad59e}"); }
+      get { return 1; }
     }
 
     public string TestRouteUrl

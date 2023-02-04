@@ -31,16 +31,17 @@ namespace Database.SqlServer.Test
 
       result = _testContext.Repository.Any(r => r.FullUrl == "invalid uri");
       Assert.IsFalse(result);
-    }  
+    }
 
     [TestMethod]
     public void Create_Delete()
     {
-      Guid? routeId = null;
+      long? routeId = null;
       try
       {
         var route = new Route()
         {
+          Id = (new Random()).Next(),
           BestBefore = DateTime.UtcNow.AddDays(1),
           FullUrl = "https://www.youtube.com/channel/UCxTclqPDlFzC6yMVtWYm_DA",
         };
@@ -64,18 +65,20 @@ namespace Database.SqlServer.Test
     [TestMethod]
     public void CreateMany_DeleteMany()
     {
-      Guid? route1Id = null;
-      Guid? route2Id = null;
+      long? route1Id = null;
+      long? route2Id = null;
       try
       {
         var route1 = new Route()
         {
+          Id = (new Random()).Next(),
           BestBefore = DateTime.UtcNow.AddDays(1),
           FullUrl = "https://docs.microsoft.com/en-us/azure/architecture/patterns/cache-aside",
         };
 
         var route2 = new Route()
         {
+          Id = (new Random()).Next(),
           BestBefore = DateTime.UtcNow.AddMonths(1),
           FullUrl = "https://midjourney.gitbook.io/docs/",
         };

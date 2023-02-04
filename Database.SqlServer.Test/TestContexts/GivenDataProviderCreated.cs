@@ -16,7 +16,7 @@ namespace Database.SqlServer.Test.TestContexts
 
     public override void Cleanup()
     {
-      DataProvider.Dispose();
+      DataProvider?.Dispose();
       base.Cleanup();
     }
   }

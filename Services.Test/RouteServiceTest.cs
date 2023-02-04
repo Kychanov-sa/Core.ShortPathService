@@ -1,8 +1,7 @@
-using CSharpVitamins;
+using Base62;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Services.Test.TestContexts;
 using System;
-using System.Text;
 
 namespace Services.Test
 {
@@ -34,9 +33,11 @@ namespace Services.Test
       }
       finally
       {
-        if (!String.IsNullOrEmpty(routeId) && ShortGuid.TryParse(routeId, out ShortGuid routeShortId))
+        
+        if (!String.IsNullOrEmpty(routeId))
         {
-          _textContext.Repository.Delete(routeShortId.Guid);
+          long internalRouteId = routeId.FromBase62<long>();
+          _textContext.Repository.Delete(internalRouteId);
         }
       }
     }

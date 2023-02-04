@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using GlacialBytes.Foundation.Data;
 
 namespace GlacialBytes.ShortPathService.Domain.Data
@@ -7,7 +6,7 @@ namespace GlacialBytes.ShortPathService.Domain.Data
   /// <summary>
   /// Интерфейс провайдера данных для хранилища SelfServiceOffice.
   /// </summary>
-  public interface IDataProvider : IDataProvider<Guid>
+  public interface IDataProvider : IDataProvider<long>
   {
     /// <summary>
     /// Возвращает запрос для выборки объектов.

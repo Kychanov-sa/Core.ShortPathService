@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GlacialBytes.ShortPathService.Persistence.Database.SqlServer.Migrations
 {
     [DbContext(typeof(SqlServerDataContext))]
-    [Migration("20220917070711_InitialState")]
-    partial class InitialState
+    [Migration("20230124083850_InitialDatabase")]
+    partial class InitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,9 +23,8 @@ namespace GlacialBytes.ShortPathService.Persistence.Database.SqlServer.Migration
 
             modelBuilder.Entity("GlacialBytes.ShortPathService.Domain.Data.DataModels.Route", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("BestBefore")
                         .HasColumnType("datetime2");

@@ -17,7 +17,7 @@ namespace GlacialBytes.ShortPathService.Persistence.Database.PostgreSql
     {
       // Контекст использует строку подключения к базе разработки решения.
       var optionsBuilder = new DbContextOptionsBuilder<PostgreSqlDataContext>();
-      optionsBuilder.UseNpgsql("Host=;Port=;Database=;Username=;Password=;");
+      optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=postgre;Username=postgre;Password=;");
       return new PostgreSqlDataContext(optionsBuilder.Options);
     }
     #endregion

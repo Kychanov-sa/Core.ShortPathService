@@ -6,14 +6,14 @@ namespace GlacialBytes.ShortPathService.Domain.Data.DataModels
   /// <summary>
   /// Базовый класс для моделей из хранилища.
   /// </summary>
-  public class DbObject : DataModel<Guid>
+  public class DbObject : DataModel<long>
   {
     /// <summary>
     /// Конструктор.
     /// </summary>
     public DbObject()
     {
-      Id = Guid.NewGuid();
+      Id = -1;
     }
 
     /// <summary>
