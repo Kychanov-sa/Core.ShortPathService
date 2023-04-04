@@ -30,12 +30,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using OpenTracing;
 using OpenTracing.Util;
 using static Jaeger.Configuration;
@@ -348,7 +350,7 @@ namespace GlacialBytes.Core.ShortPathService.WebApi.Service
     /// Регистрация Swagger генератора.
     /// </summary>
     /// <param name="services">Коллекция сервисов.</param>
-    private void AddSwagger(IServiceCollection services)
+    private static void AddSwagger(IServiceCollection services)
     {
       services.AddSwaggerGen(config =>
       {
@@ -417,29 +419,31 @@ namespace GlacialBytes.Core.ShortPathService.WebApi.Service
 #endif
 
       app.UseExceptionHandler("/error");
-      app.UseHttpsRedirection();
-      app.UseRouting();
-      app.UseAuthentication();
-      app.UseAuthorization();
 
       // Проверка здоровья
       app.UseHealthChecks("/ready", new HealthCheckOptions() { Predicate = _ => true, ResponseWriter = HealthChecksResponseWriter, });
       app.UseHealthChecks("/health", new HealthCheckOptions() { Predicate = (check) => check.Tags.Contains("SYSTEM"), ResponseWriter = HealthChecksResponseWriter, });
 
-#if false
-      app.UseMiddleware<Middleware.LanguageSetupMiddleware>();
-#endif
+      app.UseStaticFiles("/favicon.ico");
+      app.UseHttpsRedirection();
+      app.UseRouting();
+      app.UseAuthentication();
+      app.UseAuthorization();
 
       app.UseEndpoints(endpoints =>
       {
-        endpoints.MapControllers();
         endpoints.MapGet("/version", async context =>
         {
           string version = $"{{\"serviceVersion\":\"{ServiceVersion}\"}}";
           context.Response.Headers[HeaderNames.ContentType] = "text/javascript";
           await context.Response.WriteAsync(version);
         });
+        endpoints.MapControllers();
       });
+
+#if false
+      app.UseMiddleware<Middleware.LanguageSetupMiddleware>();
+#endif
 
       // Конфигурируем локализации
       ConfigureLocalizations(globalizationOptions.Value);
@@ -536,7 +540,7 @@ namespace GlacialBytes.Core.ShortPathService.WebApi.Service
     private static Task HealthChecksResponseWriter(HttpContext context, HealthReport result)
     {
       context.Response.ContentType = "application/json";
-      return context.Response.WriteAsync(JsonSerializer.Serialize(result));
+      return context.Response.WriteAsync(JsonConvert.SerializeObject(result, Formatting.Indented, new Newtonsoft.Json.Converters.StringEnumConverter()));
     }
 
     /// <summary>
