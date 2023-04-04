@@ -8,32 +8,15 @@ namespace GlacialBytes.Core.ShortPathService.WebApi.Service.Options
   public class AuthenticationOptions
   {
     /// <summary>
-    /// Доверенный издатель токена.
+    /// Доверенные издатели токенов доступа.
     /// </summary>
     [LoggableOption]
-    public string TrustedIssuer { get; set; }
+    public TrustedTokenIssuerOptions[] TrustedIssuers { get; set; }
 
     /// <summary>
     /// Имя сервиса.
     /// </summary>
     [LoggableOption]
     public string Audience { get; set; }
-
-    /// <summary>
-    /// Ключ шифрования.
-    /// </summary>
-    public string EncryptionKey { get; set; }
-
-    /// <summary>
-    /// Отпечаток сертификата для проверки аутентичности токенов безопасности.
-    /// </summary>
-    [LoggableOption]
-    public string SigningCertificateThumbprint { get; set; }
-
-    /// <summary>
-    /// Путь к файлу *.crt сертификата для проверки аутентичности токенов безопасности.
-    /// </summary>
-    [LoggableOption]
-    public string SigningCertificatePath { get; set; }
   }
 }
