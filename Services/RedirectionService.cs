@@ -39,7 +39,7 @@ namespace GlacialBytes.Core.ShortPathService.Services
       }
       catch (Exception)
       {
-        throw new ArgumentException($"Provided routeId value: '{routeId}' is not a valid identifier.");
+        throw new RouteNotFoundException(routeId);
       }
 
       var repository = _dataProvider.GetRepository<Route>();
