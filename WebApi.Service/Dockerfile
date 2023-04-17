@@ -2,7 +2,7 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
-COPY /WebApi.Service/bin/Release/net6.0/linux-x64 .
+COPY . .
 
 EXPOSE 80
 EXPOSE 443
