@@ -13,7 +13,7 @@ namespace GlacialBytes.ShortPathService.Persistence.Database.SqlServer.Migration
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     FullUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BestBefore = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    BestBefore = table.Column<DateTime>(type: "datetime2", nullable: true),
                 },
                 constraints: table =>
                 {

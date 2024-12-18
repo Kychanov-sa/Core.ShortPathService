@@ -1,11 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>GlacialBytes.Core.ShortPathService.Diagnostics.Metrics</AssemblyName>
     <RootNamespace>GlacialBytes.Core.ShortPathService.Diagnostics</RootNamespace>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\glacialbytes.core.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-
 </Project>

@@ -13,7 +13,7 @@ namespace GlacialBytes.ShortPathService.Persistence.Database.PostgreSql.Migratio
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     FullUrl = table.Column<string>(type: "text", nullable: false),
-                    BestBefore = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                    BestBefore = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                 },
                 constraints: table =>
                 {
